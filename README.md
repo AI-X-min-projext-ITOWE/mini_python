@@ -1,8 +1,12 @@
-## mini_python
-- 깃허브 규칙 저용됐는지?
-- feat/readme
+# mini_python
 
-- asdasd
-- sdfsdf
-- 가능 ?
-- feature branch
+
+
+### OCR pip install
+>>conda create -n sum_insect python=3.12
+>>conda activate sum_insect
+>>conda install -c conda-forge tesseract pytesseract
+>>conda install -c conda-forge tesseract-data-eng
+
+### SPC pip install
+>>pip install gtts
