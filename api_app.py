@@ -1,17 +1,20 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import os
-import base64
 from dotenv import load_dotenv
-from service.ocr_to_summary import *
+from service.ocr_service import *
 from service.txt_to_speech import *
-from service.translation import *
+from service.tran_service import *
+from service.sum_service import *
+
 # .env 파일의 환경 변수 불러오기
 load_dotenv()
 
 # 환경 변수 사용하기
 host = os.getenv('FRONT_HOST')
 host = host if host != 'localhost' else 'localhost'
+translate_service = TransService()
+sum_service = SummaryService()
 
 app = FastAPI()
 
@@ -29,39 +32,63 @@ app.add_middleware(
     allow_methods=["*"],          # 모든 HTTP 메소드 허용
     allow_headers=["*"],          # 모든 HTTP 헤더 허용
 )
+# 텍스트,이미지 : 내용, 요약, 음성
 
-
-
-@app.post("/summary")
-async def create_file(file:UploadFile , is_summary:bool, lang:str):
+#1. 이미지를 뽑아 내용을 요약하고 번역해서 읽어준다. -텍스트
+@app.post("/ocr-sum-spc")
+async def create_speech(file:UploadFile, lang: str, tran_lang:str):
     contents = await file.read()
-    result = OcrSummaryService.ocr_summary(contents, lang)
+
+    ocr_result = OcrService.ocr_text(contents, lang)
+    sum_result = sum_service.get_summary(ocr_result)
+    tran_result = translate_service.get_translation(sum_result)
+    speech_result = TxtSpeech.get_speech(tran_result, lang)
     
     return {
-        "결과 : " : result
-    }
+        "result": speech_result
+        }   
 
-@app.post("/text")
-async def create_text(file:UploadFile):
-    lang = 'en'
-    pass
-
-@app.post("/translate")
-async def create_text(text:str):
-    translate_service = Translation()
-    translate_txt = translate_service.get_translation(text)
+#2. 이미지를 뽑아 내용을 번역해서 읽어준다. -요약 -텍스트
+@app.post("/ocr-spc")
+async def create_speech(file:UploadFile, lang: str, tran_lang:str):
+    contents = await file.read()
+    
+    ocr_result = OcrService.ocr_text(contents, lang)
+    tran_result = translate_service.get_translation(ocr_result)
+    speech_result = TxtSpeech.get_speech(tran_result, tran_lang)    
 
     return {
-        "번역 : " : translate_txt
+        "result": speech_result
+        }
+#3. 이미지를 뽑아 내용을 번역해서 읽어준다. -요약 -음성
+@app.post("/ocr-tran")
+async def create_speech(file:UploadFile, lang: str, tran_lang:str):
+    contents = await file.read()
+    
+    ocr_result = OcrService.ocr_text(contents, lang)
+    tran_result = translate_service.get_translation(ocr_result) 
+
+    return {
+        "result": tran_result
+        }
+
+#4. 텍스트 내용을 번역한다. -이미지 -요약 -음성
+@app.post("/txt")
+async def create_text(text: str, lang):
+    # 번역 언어 선택을 좀 더 자유롭게 하도록 수정
+    tran_result = translate_service.get_translation(text)
+
+    return {
+        "result" : tran_result
     }
 
-@app.post("/speech")
-async def create_speech(file:UploadFile, lang: str):
-    contents = await file.read()
-    text = OcrSummaryService.ocr_summary(contents, lang)
-    print(text)
-    result = TxtSpeech.get_speech(text, lang)
-    # speech_list의 각 바이트 데이터를 Base64로 인코딩
-    encoded_audio = base64.b64encode(b"".join(result)).decode('utf-8')
-
-    return {"audio_base64": encoded_audio}
+#5. 텍스트 내용을 요약하고 번역한다. -이미지 -음성
+@app.post("/txt-sum")
+async def create_file(text: str):
+    
+    sum_result = sum_service.get_summary(text)
+    tran_result = translate_service.get_translation(sum_result)
+    
+    return {
+        "result" : tran_result
+    }

@@ -31,6 +31,5 @@ class TranDetector():
 
         #step5
         result = self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
-        print(result)
-        return result
+        return result[0]
         
