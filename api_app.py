@@ -12,10 +12,6 @@ load_dotenv()
 
 # 환경 변수 사용하기
 host = os.getenv('FRONT_HOST', 'localhost')
-
-translate_service = TransService()
-sum_service = SummaryService()
-
 app = FastAPI()
 
 class TextRequest(BaseModel):
@@ -51,7 +47,7 @@ app.add_middleware(
 
 # 파일은 별도로 받고
 @app.post("/images")
-async def create_speech(file: UploadFile,  request: ImageRequest = Depends()): # JSON 데이터는 요청 바디로 받기):
+async def create_speech(file: UploadFile,  request: ImageRequest = Depends()):
     image_usecase = ImageUsecase()
     contents = await file.read()
     
