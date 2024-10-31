@@ -29,8 +29,14 @@ class ImageRequest(BaseModel):
 
 # 허용할 도메인 목록 설정
 origins = [
+    "http://127.0.0.1",
+    "http://{0}:80".format(host),
     "http://{0}:3000".format(host),
-    "http://{0}".format(host)
+    "http://{0}".format(host),
+    "https://127.0.0.1",
+    "https://{0}:80".format(host),
+    "https://{0}:3000".format(host),
+    "https://{0}".format(host)
 ]
 
 

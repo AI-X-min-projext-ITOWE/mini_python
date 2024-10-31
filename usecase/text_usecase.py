@@ -15,13 +15,15 @@ class TextUsecase():
     def excute(self, text:str, from_lang:int, to_lang:int, is_summary:bool, is_speech:bool):
         result = ["", ""]
         txt_result = text
+        result[1] = self.tran_service.get_translation(txt_result, self.tran_lang_list[from_lang], self.tran_lang_list[to_lang])
         if (is_summary):
-           txt_result = self.sum_service.get_summary(txt_result) 
-        
-        tran_result = self.tran_service.get_translation(txt_result, self.tran_lang_list[from_lang], self.tran_lang_list[to_lang])
-        result[1] = tran_result
-        
+            # 요약
+            txt_result = self.sum_service.get_summary(txt_result)
+            # 요약 내용 저장
+            result[0] = self.tran_service.get_translation(txt_result, self.tran_lang_list[from_lang], self.tran_lang_list[to_lang])
+            
         if(is_speech):
-            result[0] = SpeechService.get_speech(tran_result, self.spc_lang_list[to_lang])
-        
+            speech_text = result[0] if is_summary else result[1] 
+            result[0] = SpeechService.get_speech(speech_text, self.spc_lang_list[to_lang])
+
         return result
