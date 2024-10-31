@@ -1,0 +1,4 @@
+gtts>=2.5.3
+pydub==0.25.1
+tiktoken==0.8.0 
+sentencepiece

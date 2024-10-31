@@ -1,11 +1,10 @@
 from abc import ABC, abstractmethod
 
 
-class factory(ABC):
-
+class DetectionModel(ABC):
 
     # 모델 객체 생성
     @staticmethod
     @abstractmethod
-    def create_detector(model_path: str):
+    def detection(model_path: str):
         pass
