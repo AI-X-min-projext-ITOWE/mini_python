@@ -11,8 +11,8 @@ from fastapi.encoders import jsonable_encoder
 load_dotenv()
 
 # 환경 변수 사용하기
-host = os.getenv('FRONT_HOST')
-host = host if host != 'localhost' else 'localhost'
+host = os.getenv('FRONT_HOST', 'localhost')
+
 translate_service = TransService()
 sum_service = SummaryService()
 
@@ -32,6 +32,7 @@ origins = [
     "http://{0}:3000".format(host),
     "http://{0}".format(host)
 ]
+
 
 # CORS 미들웨어 추가
 app.add_middleware(
