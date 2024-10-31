@@ -18,14 +18,16 @@ class TranDetector():
         
         return self.tokenizer
 
-    def detection(self, text:str):
-        
+    def detection(self, text:str, from_lang:str, to_lang:str):
+        # 언어 선택을 좀 더 자유롭게 하기
         #step4
-        self.tokenizer.src_lang = "en_XX"
+    
+        self.tokenizer.src_lang = from_lang
         encoded_hi = self.tokenizer(text, return_tensors="pt")
+        print(to_lang)
         generated_tokens = self.model.generate(
-            **encoded_hi,
-            forced_bos_token_id=self.tokenizer.lang_code_to_id["ko_KR"]
+            **encoded_hi,    
+            forced_bos_token_id=self.tokenizer.lang_code_to_id[to_lang]
         )
         self.tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
 

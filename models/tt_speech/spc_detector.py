@@ -6,7 +6,6 @@ class SpcDetector(DetectionModel):
     @staticmethod
     def detection(text: str, lang:str):
         speech_list = []
-        lang = 'en' if lang == 'eng' else lang
         
         tts = gTTS(text=text, lang=lang)
         try:
