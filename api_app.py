@@ -12,6 +12,10 @@ load_dotenv()
 
 # 환경 변수 사용하기
 host = os.getenv('FRONT_HOST', 'localhost')
+port = os.getenv('FFRONT_PORT', 3000)
+
+print(host)
+print(port)
 app = FastAPI()
 
 class TextRequest(BaseModel):
@@ -32,6 +36,7 @@ origins = [
     "https://127.0.0.1",
     "https://{0}:80".format(host),
     "https://{0}:3000".format(host),
+    "https://{0}:{1}".format(host, port),
     "https://{0}".format(host)
 ]
 
