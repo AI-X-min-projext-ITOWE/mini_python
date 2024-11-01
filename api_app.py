@@ -12,10 +12,6 @@ load_dotenv()
 
 # 환경 변수 사용하기
 host = os.getenv('FRONT_HOST', 'localhost')
-
-translate_service = TransService()
-sum_service = SummaryService()
-
 app = FastAPI()
 
 class TextRequest(BaseModel):
@@ -29,8 +25,14 @@ class ImageRequest(BaseModel):
 
 # 허용할 도메인 목록 설정
 origins = [
+    "http://127.0.0.1",
+    "http://{0}:80".format(host),
     "http://{0}:3000".format(host),
-    "http://{0}".format(host)
+    "http://{0}".format(host),
+    "https://127.0.0.1",
+    "https://{0}:80".format(host),
+    "https://{0}:3000".format(host),
+    "https://{0}".format(host)
 ]
 
 
@@ -45,7 +47,7 @@ app.add_middleware(
 
 # 파일은 별도로 받고
 @app.post("/images")
-async def create_speech(file: UploadFile,  request: ImageRequest = Depends()): # JSON 데이터는 요청 바디로 받기):
+async def create_speech(file: UploadFile,  request: ImageRequest = Depends()):
     image_usecase = ImageUsecase()
     contents = await file.read()
     
