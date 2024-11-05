@@ -1,8 +1,7 @@
 # mini_python
 
 
-
-##install
+## Install
 >>conda create -n sum_insect python=3.12
 >>conda activate sum_insect<br>
 >>conda install -c conda-forge tesseract pytesseract<br>
