@@ -10,9 +10,9 @@
 >>pip install --no-cache-dir --upgrade -r requirements.txt<br>
 
 ## API 명세서
->> #### 이미지 요청
->> url : /images?from_lang=4&to_lang=0&is_summary=false&is_speech=false
->> body : file
+>> #### 이미지 요청 <br>
+>> url : /images?from_lang=4&to_lang=0&is_summary=false&is_speech=false <br>
+>> body : file<br>
 
 >>| 요청 변수명 | 타입 | 필수 여부 | 기본값 | 설명 |
 >>|-------|-------|-------|-------|-------|
@@ -23,8 +23,8 @@
 >>| is_speech | boolean | Y | - |음성 선택|
 
 >> #### 텍스트 요청
->> url : /text?from_lang=4&to_lang=0&is_summary=false&is_speech=false
->> body : text
+>> url : /text?from_lang=4&to_lang=0&is_summary=false&is_speech=false <br>
+>> body : text<br>
 
 >>| 요청 변수명 | 타입 | 필수 여부 | 기본값 | 설명 |
 >>|-------|-------|-------|-------|-------|
