@@ -4,10 +4,10 @@
 
 ##install
 >>conda create -n sum_insect python=3.12
->>conda activate sum_insect
->>conda install -c conda-forge tesseract pytesseract
->>conda install -c conda-forge tesseract-data-eng
->>pip install --no-cache-dir --upgrade -r requirements.txt
+>>conda activate sum_insect<br>
+>>conda install -c conda-forge tesseract pytesseract<br>
+>>conda install -c conda-forge tesseract-data-eng<br>
+>>pip install --no-cache-dir --upgrade -r requirements.txt<br>
 
 ## API 명세서
 >> #### 이미지 요청
