@@ -5,6 +5,10 @@
 >>conda create -n sum_insect python=3.12
 >>conda activate sum_insect<br>
 >>conda install -c conda-forge tesseract pytesseract<br>
+>>conda install -c conda-forge tesseract-data-kor<br>
+>>conda install -c conda-forge tesseract-data-chi-sim<br>
+>>conda install -c conda-forge tesseract-data-jpn<br>
+>>conda install -c conda-forge tesseract-data-spa<br>
 >>conda install -c conda-forge tesseract-data-eng<br>
 >>pip install --no-cache-dir --upgrade -r requirements.txt<br>
 
